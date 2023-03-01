@@ -1,0 +1,6 @@
+[submodule "IDATT2104"]
+	path = IDATT2104
+	url = git@github.com:eriskjel/IDATT2104.git
+[submodule "frontend"]
+	path = frontend
+	url = git@github.com:eriskjel/IDATT2104.git
