@@ -10,16 +10,24 @@ import java.io.InputStreamReader;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:8080")
+
 public class CodeController {
 
     @PostMapping("/compile")
-    public String compile(@RequestBody Code code) {
+    public String recieveAndReturnRequest(@RequestBody Code code) {
+        return compilePython(code);
+    }
+
+    public String compilePython(Code code){
         String output = "";
 
         // Build the Docker command to compile the Java code
+
         String[] command = {
                 //"docker", "run", "--rm", "-i", "java-image", "javac", "-"
                 "docker", "run", "--rm", "python:latest", "python", "-c", code.getCode()
+                //"echo", code.getCode(), "|", "docker", "run", "--rm", "-i,", "openjdk:latest", "sh", "-c", "cat > Main.java && javac Main.java && java Main"
+                //"docker", "run", "--rm", "-i", "openjdk:latest", "sh", "-c", "echo \"" + code.getCode() + "\" > Main.java && javac Main.java && java Main"
         };
 
         try {
@@ -47,8 +55,8 @@ public class CodeController {
         } catch (IOException | InterruptedException e) {
             output += "Error: " + e.getMessage();
         }
-        System.out.println(output);
-
         return output;
     }
 }
+
+
